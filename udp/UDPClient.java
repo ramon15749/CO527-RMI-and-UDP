@@ -14,7 +14,7 @@ import common.MessageInfo;
 
 public class UDPClient {
 
-	private DatagramSocket sendSoc;
+	private DatagramSocket sendSoc; //UDP datagram socket
 
 	public static void main(String[] args) {
 		InetAddress	serverAddr = null;
@@ -39,16 +39,29 @@ public class UDPClient {
 
 
 		// TO-DO: Construct UDP client class and try to send messages
+		UDPClient UDP_client = new UDPClient();
+		UDP_client.testLoop(serverAddr, recvPort, countTo);
 	}
 
 	public UDPClient() {
 		// TO-DO: Initialise the UDP socket for sending data
+		try {
+			sendSoc = new DatagramSocket();	//sendSoc defined at start
+		}
+		catch (SocketException exc) {
+			System.out.println ("Socket creation error");
+		}
 	}
 
 	private void testLoop(InetAddress serverAddr, int recvPort, int countTo) {
 		int				tries = 0;
 
 		// TO-DO: Send the messages to the server
+		for (tries; tries < countTo; tries++) {
+			String new_message = new String(Integer.toString(countTo) + "," + Integer.toString(tries));
+			send(new_message, serverAddr, recvPort);
+		}
+
 	}
 
 	private void send(String payload, InetAddress destAddr, int destPort) {
@@ -57,5 +70,15 @@ public class UDPClient {
 		DatagramPacket		pkt;
 
 		// TO-DO: build the datagram packet and send it to the server
+		pktData = payload.getBytes();
+		payloadSize = pktData.length();
+		pkt = new DatagramPacket(pktData, payloadSize, destAddr, destPort);
+
+		try {
+			sendSoc.send(pkt);
+		} catch (IOException error) {
+			System.out.println("Error sending packet over network");
+			System.exit(-1);
+		}
 	}
 }

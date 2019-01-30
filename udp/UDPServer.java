@@ -26,7 +26,20 @@ public class UDPServer {
 
 		// TO-DO: Receive the messages and process them by calling processMessage(...).
 		//        Use a timeout (e.g. 30 secs) to ensure the program doesn't block forever
+		pacSize = 5000;
+		pacData = new byte [pacSize]
+		pac = new DatagramPacket(pacData, pacSize);
 
+		try {
+			recvSoc.setSoTimeout(30000);
+			recvSoc.receive(pac);
+		}
+		catch (IOException excp) {
+			System.out.println("Error IO exception receiving packet, possibly timeout");
+			System.exit(-1);
+		}
+
+		processMessage(pac.getData());
 	}
 
 	public void processMessage(String data) {
