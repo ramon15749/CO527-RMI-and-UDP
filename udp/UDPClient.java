@@ -58,8 +58,10 @@ public class UDPClient {
 
 		// TO-DO: Send the messages to the server
 		for (tries; tries < countTo; tries++) {
-			String new_message = new String(Integer.toString(countTo) + "," + Integer.toString(tries));
-			send(new_message, serverAddr, recvPort);
+			// String new_message = new String(Integer.toString(countTo) + "," + Integer.toString(tries));
+			MessageInfo new_message = new MessageInfo (countTo, tries);
+			new_message.send(new_message.toString(), serverAddr, recvPort);
+			
 		}
 
 	}
@@ -70,11 +72,10 @@ public class UDPClient {
 		DatagramPacket		pkt;
 
 		// TO-DO: build the datagram packet and send it to the server
-		pktData = payload.getBytes();
-		payloadSize = pktData.length();
-		pkt = new DatagramPacket(pktData, payloadSize, destAddr, destPort);
-
 		try {
+			pktData = payload.getBytes();
+			payloadSize = pktData.length();
+			pkt = new DatagramPacket(pktData, payloadSize, destAddr, destPort);
 			sendSoc.send(pkt);
 		} catch (IOException error) {
 			System.out.println("Error sending packet over network");
