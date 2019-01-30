@@ -17,7 +17,7 @@ public class UDPServer {
 	private DatagramSocket recvSoc;
 	private int totalMessages = -1;
 	private int[] receivedMessages;
-	private boolean close;
+	private boolean close;		//to stop receiving messages
 
 	private void run() {
 		int				pacSize;
@@ -31,7 +31,7 @@ public class UDPServer {
 		pac = new DatagramPacket(pacData, pacSize);
 
 		try {
-			recvSoc.setSoTimeout(30000);
+			recvSoc.setSoTimeout(30000); //will throw sokcetexception after timeout (extension of IOexception)
 			recvSoc.receive(pac);
 		}
 		catch (IOException excp) {
@@ -47,20 +47,52 @@ public class UDPServer {
 		MessageInfo msg = null;
 
 		// TO-DO: Use the data to construct a new MessageInfo object
+		msg = new MessageInfo(data);
 
 		// TO-DO: On receipt of first message, initialise the receive buffer
+		if (receivedMessages == NULL) {	//initially there will be no received messages
+			totalMessages = msg.totalMessages;
+			receivedMessages = new int[totalMessages];
+		}
 
 		// TO-DO: Log receipt of the message
+		receivedMessages[msg.messageNum] = 1; //1 means received 
 
 		// TO-DO: If this is the last expected message, then identify
 		//        any missing messages
+		if (msg.messageNum + 1 == msg.totalMessages) {	//when last message is being received
+			close = true;
+			String lost = "Lost packets: ";
+			int loss_count = 0;
+			for (int i=0; i < totalMessages; i++) {
+				if (receivedMessages[i] != 1) {
+					count++;
+					lost = lost + (i+1) + ", ";
+				}
+			}
+
+			if (count == 0) {
+				lost = lost + "None";
+			}
+
+			System.out.println(count + " of " + msg.totalMessages + " received successfully");
+			System.out.println("Hence, " + count + " messages failed to transfer");
+			System.out.println(lost);
+		}
 
 	}
 
 
 	public UDPServer(int rp) {
 		// TO-DO: Initialise UDP socket for receiving data
-
+		try {
+			recvSoc = new DatagramSocket(rp)
+		}
+		catch (SocketException exc) {
+			System.out.println("Could not create socket on port: " + rp);
+			System.exit(-1);
+		}
+		close = false; //allows server to run
 		// Done Initialisation
 		System.out.println("UDPServer ready");
 	}
@@ -76,6 +108,12 @@ public class UDPServer {
 		recvPort = Integer.parseInt(args[0]);
 
 		// TO-DO: Construct Server object and start it by calling run().
+		UDPServer UDP_server = new UDPServer(recvPort);
+		try {
+			UDP_server.run();
+		}
+		catch (SocketTimeoutException exc) {}
+
 	}
 
 }
