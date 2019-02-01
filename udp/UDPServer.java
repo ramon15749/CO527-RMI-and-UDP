@@ -30,17 +30,20 @@ public class UDPServer {
 		pacData = new byte [pacSize];
 		pac = new DatagramPacket(pacData, pacSize);
 
-		try {
+		while (!close) {
+			try {
 			recvSoc.setSoTimeout(30000); //will throw sokcetexception after timeout (extension of IOexception)
 			recvSoc.receive(pac);
 			// System.out.println("Message received");
-		}
-		catch (IOException excp) {
-			System.out.println("Error IO exception receiving packet, possibly timeout");
-			System.exit(-1);
+			processMessage(new String(pac.getData()));
+			}
+			catch (IOException excp) {
+				System.out.println("Error IO exception receiving packet, possibly timeout");
+				System.exit(-1);
+			}
 		}
 
-		processMessage(new String(pac.getData()));
+		
 	}
 
 	public void processMessage(String data) {
@@ -79,7 +82,7 @@ public class UDPServer {
 				lost = lost + "None";
 			}
 
-			System.out.println(count + " of " + msg.totalMessages + " received successfully");
+			System.out.println((msg.totalMessages - count) + " of " + msg.totalMessages + " received successfully");
 			System.out.println("Hence, " + count + " messages failed to transfer");
 			System.out.println(lost);
 		}
