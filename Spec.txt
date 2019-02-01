@@ -1,0 +1,18 @@
+1. A short summary (no more than 1 page) describing your findings from running the programs. You
+should address the following points:
+(a) For each mechanism, what are possible causes, if any, of messages being lost?
+(b) Are there any patterns in the way messages are lost?
+(c) What is the relative reliability of the different communication mechanisms?
+(d) Which was easier to program and why?
+2. Proof that the both RMI and UDP programs actually ran, e.g. console logs or screen dump plus an
+indication of which message numbers, if any, were lost.
+3. A well formatted listing of the completed code for the 4 classes (2 client server pairs) which is easy
+to read. Start each of the 4 classes on a new page and avoid very long lines (i.e. <70 characters).
+
+Your solutions should deal with exceptions appropriately.
+
+Please provide program listings in the following order:
+1. RMI Client
+2. RMI Server
+3. UDP Client
+4. UDP Server
