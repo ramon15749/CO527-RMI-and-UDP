@@ -57,11 +57,11 @@ public class UDPClient {
 		int				tries = 0;
 
 		// TO-DO: Send the messages to the server
-		for (tries; tries < countTo; tries++) {
+		for (; tries < countTo; tries++) {
 			// String new_message = new String(Integer.toString(countTo) + "," + Integer.toString(tries));
 			MessageInfo new_message = new MessageInfo (countTo, tries);
-			new_message.send(new_message.toString(), serverAddr, recvPort);
-			
+			send(new_message.toString(), serverAddr, recvPort);
+
 		}
 
 	}
@@ -74,7 +74,7 @@ public class UDPClient {
 		// TO-DO: build the datagram packet and send it to the server
 		try {
 			pktData = payload.getBytes();
-			payloadSize = pktData.length();
+			payloadSize = pktData.length;
 			pkt = new DatagramPacket(pktData, payloadSize, destAddr, destPort);
 			sendSoc.send(pkt);
 		} catch (IOException error) {

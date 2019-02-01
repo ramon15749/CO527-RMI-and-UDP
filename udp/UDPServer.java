@@ -27,43 +27,47 @@ public class UDPServer {
 		// TO-DO: Receive the messages and process them by calling processMessage(...).
 		//        Use a timeout (e.g. 30 secs) to ensure the program doesn't block forever
 		pacSize = 5000;
-		pacData = new byte [pacSize]
+		pacData = new byte [pacSize];
 		pac = new DatagramPacket(pacData, pacSize);
 
 		try {
 			recvSoc.setSoTimeout(30000); //will throw sokcetexception after timeout (extension of IOexception)
 			recvSoc.receive(pac);
+			// System.out.println("Message received");
 		}
 		catch (IOException excp) {
 			System.out.println("Error IO exception receiving packet, possibly timeout");
 			System.exit(-1);
 		}
 
-		processMessage(pac.getData());
+		processMessage(new String(pac.getData()));
 	}
 
 	public void processMessage(String data) {
-
 		MessageInfo msg = null;
 
 		// TO-DO: Use the data to construct a new MessageInfo object
-		msg = new MessageInfo(data);
+		try {
+			msg = new MessageInfo(data);
+		}
+		catch (Exception exc) {
+			System.out.println("Error creating MessageInfo");
+			System.exit(-1);
+		}
 
 		// TO-DO: On receipt of first message, initialise the receive buffer
-		if (receivedMessages == NULL) {	//initially there will be no received messages
+		if (receivedMessages == null) {	//initially there will be no received messages
 			totalMessages = msg.totalMessages;
 			receivedMessages = new int[totalMessages];
 		}
-
 		// TO-DO: Log receipt of the message
-		receivedMessages[msg.messageNum] = 1; //1 means received 
-
+		receivedMessages[msg.messageNum] = 1; //1 means received
 		// TO-DO: If this is the last expected message, then identify
 		//        any missing messages
 		if (msg.messageNum + 1 == msg.totalMessages) {	//when last message is being received
 			close = true;
 			String lost = "Lost packets: ";
-			int loss_count = 0;
+			int count = 0;
 			for (int i=0; i < totalMessages; i++) {
 				if (receivedMessages[i] != 1) {
 					count++;
@@ -79,14 +83,13 @@ public class UDPServer {
 			System.out.println("Hence, " + count + " messages failed to transfer");
 			System.out.println(lost);
 		}
-
 	}
 
 
 	public UDPServer(int rp) {
 		// TO-DO: Initialise UDP socket for receiving data
 		try {
-			recvSoc = new DatagramSocket(rp)
+			recvSoc = new DatagramSocket(rp);
 		}
 		catch (SocketException exc) {
 			System.out.println("Could not create socket on port: " + rp);
@@ -112,7 +115,7 @@ public class UDPServer {
 		try {
 			UDP_server.run();
 		}
-		catch (SocketTimeoutException exc) {}
+		catch (Exception exc) {}
 
 	}
 
