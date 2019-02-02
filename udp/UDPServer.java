@@ -32,13 +32,14 @@ public class UDPServer {
 
 		while (!close) {
 			try {
-			recvSoc.setSoTimeout(30000); //will throw sokcetexception after timeout (extension of IOexception)
+			recvSoc.setSoTimeout(30000); //will throw socketexception after timeout (extension of IOexception)
 			recvSoc.receive(pac);
 			// System.out.println("Message received");
 			processMessage(new String(pac.getData()));
 			}
-			catch (IOException excp) {
+			catch (IOException exc) {
 				System.out.println("Error IO exception receiving packet, possibly timeout");
+				System.out.println("Closing server");
 				System.exit(-1);
 			}
 		}
@@ -55,6 +56,7 @@ public class UDPServer {
 		}
 		catch (Exception exc) {
 			System.out.println("Error creating MessageInfo");
+			System.out.println("Closing server");
 			System.exit(-1);
 		}
 
@@ -91,11 +93,12 @@ public class UDPServer {
 
 	public UDPServer(int rp) {
 		// TO-DO: Initialise UDP socket for receiving data
+		//rp is receving port
 		try {
 			recvSoc = new DatagramSocket(rp);
 		}
 		catch (SocketException exc) {
-			System.out.println("Could not create socket on port: " + rp);
+			System.out.println("Couldn't create socket on port: " + rp);
 			System.exit(-1);
 		}
 		close = false; //allows server to run

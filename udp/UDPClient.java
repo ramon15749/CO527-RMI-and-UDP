@@ -50,6 +50,7 @@ public class UDPClient {
 		}
 		catch (SocketException exc) {
 			System.out.println ("Socket creation error");
+			System.out.println(exc);
 		}
 	}
 
