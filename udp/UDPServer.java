@@ -26,7 +26,7 @@ public class UDPServer {
 
 		// TO-DO: Receive the messages and process them by calling processMessage(...).
 		//        Use a timeout (e.g. 30 secs) to ensure the program doesn't block forever
-		pacSize = 5000;
+		pacSize = 50;
 		pacData = new byte [pacSize];
 		pac = new DatagramPacket(pacData, pacSize);
 
