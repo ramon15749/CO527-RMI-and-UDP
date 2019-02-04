@@ -85,7 +85,8 @@ public class UDPServer {
 			}
 
 			System.out.println((msg.totalMessages - count) + " of " + msg.totalMessages + " received successfully");
-			System.out.println("Hence, " + count + " messages failed to transfer");
+			System.out.println(((count*100)/msg.totalMessages) + "% failure rate");
+			System.out.println(count + " messages failed to transfer");
 			System.out.println(lost);
 		}
 	}

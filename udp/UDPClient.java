@@ -60,12 +60,11 @@ public class UDPClient {
 		// TO-DO: Send the messages to the server
 		for (; tries < countTo; tries++) {
 			try {
-				Thread.sleep(1);
+				Thread.sleep(1);			//needed to prevent overload of output socket buffer
 			} 
 			catch(InterruptedException exc) {
 				Thread.currentThread().interrupt();
 			}
-			// String new_message = new String(Integer.toString(countTo) + "," + Integer.toString(tries));
 			MessageInfo new_message = new MessageInfo (countTo, tries);
 			send(new_message.toString(), serverAddr, recvPort);
 
