@@ -1,1 +1,4 @@
 ./scripts/*
+*.class
+rmi/*.class
+udp/*.class
