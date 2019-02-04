@@ -30,13 +30,17 @@ public class RMIClient {
             System.setSecurityManager(new SecurityManager());
         }
 		// TO-DO: Bind to RMIServer
+		System.out.println("before tryy");
 			try{
+
 				iRMIServer = (RMIServerI)Naming.lookup(urlServer);
 				// TO-DO: Attempt to send messages the specified number of times
 				for(int i = 0; i < numMessages; i++){
 					MessageInfo messageIn = new MessageInfo(numMessages, i);
 					iRMIServer.receiveMessage(messageIn);
+					System.out.println("Message: " + i);
 				}
+				System.out.println("Messages Sent");
 			}
 		catch (NotBoundException e) {
 				System.out.println("Error: NotBoundException.");
