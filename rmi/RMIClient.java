@@ -7,7 +7,7 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.net.MalformedURLException;
-
+import java.rmi.registry.*;
 import common.MessageInfo;
 
 public class RMIClient {
@@ -30,10 +30,11 @@ public class RMIClient {
             System.setSecurityManager(new SecurityManager());
         }
 		// TO-DO: Bind to RMIServer
-		System.out.println("before tryy");
+		System.out.println("before try");
 			try{
-
+				System.out.println("lookup attempted..");
 				iRMIServer = (RMIServerI)Naming.lookup(urlServer);
+				System.out.println("lookup succeeded");
 				// TO-DO: Attempt to send messages the specified number of times
 				for(int i = 0; i < numMessages; i++){
 					MessageInfo messageIn = new MessageInfo(numMessages, i);

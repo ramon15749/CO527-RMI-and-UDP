@@ -31,6 +31,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerI {
 
 				// TO-DO: Log receipt of the message
 				receivedMessages[msg.messageNum] = 1;
+				System.out.println(msg.messageNum);
 
 				// TO-DO: If this is the last expected message, then identify any missing messages
 				if (msg.messageNum == totalMessages-1) {
@@ -86,6 +87,9 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerI {
 		}
 		catch (RemoteException e) {
 				System.out.println("Error: Remote Exception.");
+	}
+	catch(MalformedURLException e){
+		System.out.println("Error: Malformed URL");
 	}
 		// TO-DO:
 		// Now rebind the server to the registry (rebind replaces any existing servers bound to the serverURL)
