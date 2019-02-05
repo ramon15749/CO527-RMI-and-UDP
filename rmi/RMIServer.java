@@ -62,11 +62,12 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerI {
 				System.setSecurityManager(new SecurityManager());
 		}
 		// TO-DO: Instantiate the server class
+		string serverURL = new string("rmi://localhost/RMIServer");
 		try{
 			rmis =  new RMIServer();
 			System.out.println("going to rebind");
 			// TO-DO: Bind to RMI registry
-			rebindServer("RMIServer",rmis);
+			rebindServer(serverURL,rmis);
 		}
 		//Exception Handling
 		catch (RemoteException e) {
@@ -87,9 +88,6 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerI {
 		}
 		catch (RemoteException e) {
 				System.out.println("Error: Remote Exception.");
-	}
-	catch(MalformedURLException e){
-		System.out.println("Error: Malformed URL");
 	}
 		// TO-DO:
 		// Now rebind the server to the registry (rebind replaces any existing servers bound to the serverURL)
