@@ -33,7 +33,7 @@ public class UDPServer {
 
 		while (!close) {
 			try {
-			recvSoc.setSoTimeout(30000); //will throw socketexception after timeout (extension of IOexception)
+			recvSoc.setSoTimeout(10000); //will throw socketexception after timeout (extension of IOexception)
 			recvSoc.receive(pac);
 			// System.out.println("Message received");
 			
@@ -90,7 +90,7 @@ public class UDPServer {
 			}
 
 			System.out.println((msg.totalMessages - count) + " of " + msg.totalMessages + " received successfully");
-			System.out.println(((count*100)/msg.totalMessages) + "% failure rate");
+			System.out.println(((float)(count*100)/msg.totalMessages) + "% failure rate");
 			System.out.println(count + " messages failed to transfer");
 			System.out.println(lost);
 		}
