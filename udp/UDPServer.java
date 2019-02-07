@@ -18,6 +18,7 @@ public class UDPServer {
 	private int totalMessages = -1;
 	private int[] receivedMessages;
 	private boolean close;		//to stop receiving messages
+	private boolean time_out = false;
 
 	private void run() {
 		int				pacSize;
@@ -35,13 +36,17 @@ public class UDPServer {
 			recvSoc.setSoTimeout(30000); //will throw socketexception after timeout (extension of IOexception)
 			recvSoc.receive(pac);
 			// System.out.println("Message received");
-			processMessage(new String(pac.getData()));
+			
 			}
 			catch (IOException exc) {
 				System.out.println("Error IO exception receiving packet, possibly timeout");
-				System.out.println("Closing server");
-				System.exit(-1);
+				// System.out.println("Closing server");
+				// System.exit(-1);
+				time_out = true;
+				close = true;
 			}
+
+			processMessage(new String(pac.getData()));
 		}
 
 		
@@ -69,7 +74,7 @@ public class UDPServer {
 		receivedMessages[msg.messageNum] = 1; //1 means received
 		// TO-DO: If this is the last expected message, then identify
 		//        any missing messages
-		if (msg.messageNum + 1 == msg.totalMessages) {	//when last message is being received
+		if ((msg.messageNum + 1 == msg.totalMessages) || time_out) {	//when last message is being received
 			close = true;
 			String lost = "Lost packets: ";
 			int count = 0;
