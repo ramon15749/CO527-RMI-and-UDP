@@ -48,7 +48,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerI {
 					System.out.println("Received  : " + (totalMessages - count));
 					System.out.println("Lost      : " + count);
 					System.out.println("Test finished.");
-					System.exit(0);
+					// System.exit(0);
 				}
 			}
 
@@ -88,6 +88,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerI {
 		catch (RemoteException e) {
 				System.out.println("Error: Remote Exception.");
 	}
+
 		// TO-DO:
 		// Now rebind the server to the registry (rebind replaces any existing servers bound to the serverURL)
 		// Note - Registry.rebind (as returned by createRegistry / getRegistry) does something similar but

@@ -33,8 +33,14 @@ public class RMIClient {
 		System.out.println("before try");
 			try{
 				System.out.println("lookup attempted..");
+<<<<<<< HEAD
 				Registry registry = LocateRegistry.getRegistry(args[0]);
 				iRMIServer = (RMIServerI)registry.lookup(urlServer);
+=======
+				iRMIServer = (RMIServerI)Naming.lookup(urlServer);
+				// Registry registry = LocateRegistry.getRegistry(args[0]);
+				// iRMIServer = (RMIServerI) registry.lookup("RMIServer");
+>>>>>>> b60dc08d1b4ea277babde25802c8772d3546d9b9
 				System.out.println("lookup succeeded");
 				// TO-DO: Attempt to send messages the specified number of times
 				for(int i = 0; i < numMessages; i++){
