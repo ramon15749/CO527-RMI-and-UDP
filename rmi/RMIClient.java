@@ -22,7 +22,7 @@ public class RMIClient {
 			System.exit(-1);
 		}
 
-		String urlServer = new String("rmi://" + args[0] + "/RMIServer");
+		String urlServer = new String("rmi://localhost/RMIServer");
 		int numMessages = Integer.parseInt(args[1]);
 
 		// TO-DO: Initialise Security Manager
@@ -33,7 +33,14 @@ public class RMIClient {
 		System.out.println("before try");
 			try{
 				System.out.println("lookup attempted..");
+<<<<<<< HEAD
+				Registry registry = LocateRegistry.getRegistry(args[0]);
+				iRMIServer = (RMIServerI)registry.lookup(urlServer);
+=======
 				iRMIServer = (RMIServerI)Naming.lookup(urlServer);
+				// Registry registry = LocateRegistry.getRegistry(args[0]);
+				// iRMIServer = (RMIServerI) registry.lookup("RMIServer");
+>>>>>>> b60dc08d1b4ea277babde25802c8772d3546d9b9
 				System.out.println("lookup succeeded");
 				// TO-DO: Attempt to send messages the specified number of times
 				for(int i = 0; i < numMessages; i++){
@@ -49,8 +56,8 @@ public class RMIClient {
 		catch (RemoteException e) {
 				System.out.println("Error: Remote Exception.");
 		}
-		catch (MalformedURLException e) {
-				System.out.println("Error: Malformed URL.");
-		}
+		// catch (MalformedURLException e) {
+		// 		System.out.println("Error: Malformed URL.");
+		// }
 	}
 }
